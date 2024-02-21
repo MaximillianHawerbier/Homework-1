@@ -1,0 +1,73 @@
+Require Import Arith
+Lemma contrap : forall P Q: Prop, (P->Q) ->(not Q -> not P).
+Proof.
+intros P Q.
+unfold not.
+intros H q p.
+apply q.
+destruct q.
+apply H.
+exact p.
+Qed.
+
+Lemma revcontrap: forall P Q: Prop, (~Q -> ~P) -> (P -> ~~Q).
+Proof.
+intros P Q.
+unfold not.
+intros H1 p H2.
+apply H1 in p.
+exact p.
+exact H2.
+Qed.
+
+Lemma bothfalse: forall P Q: Prop, ~P -> ~Q -> (P <-> Q).
+Proof.
+intros P Q.
+unfold not.
+intros H1 H2.
+split.
+intro p.
+apply H1 in p.
+exfalso.
+exact p.
+intro q.
+apply H2 in q.
+exfalso.
+exact q.
+Qed.
+
+Lemma iff_trans: forall P Q R: Prop, (P<->Q) -> (Q<->R) -> (P<-> R).
+Proof.
+intros P Q R.
+split.
+intro p.
+apply H in p.
+apply H0 in p.
+exact p.
+intro r.
+apply H0 in r.
+apply H in r.
+exact r.
+Qed.
+
+Lemma or_uni: forall P Q R: Prop, ((P\/Q) -> R) <-> ((P->R) /\ (Q -> R)).
+Proof.
+intros P Q R.
+split.
+split.
+intro p.
+apply H.
+left.
+exact p.
+intro q.
+apply H.
+right.
+exact q.
+intros H1 H2.
+destruct H1 as [pr qr].
+destruct H2.
+apply pr.
+exact H.
+apply qr.
+exact H.
+Qed.
